@@ -7,29 +7,34 @@ use App\Models\Post;
 
 use Illuminate\Http\Request;
 
+
 class CommentController extends Controller
 {
-   public function store(Request $request, Post $post){
-         $request->validate([
+  public function store(Request $request, Post $post){
+        $request->validate([
         'comment' => 'required|string|min:10',
-        'post_id' => 'required|exists:posts,id',
+         'post_id' => 'required|exists:posts,id'
     ]);
 
-    Comment::create([
+
+    //   dd($post->id);
+    $comment=Comment::create([
         'user_id' => auth()->id(),
-        'post_id' => $request->post_id,   // ✅ will not be null now
+        'post_id' => $post->id,
         'comment' => $request->comment,
     ]);
-    
-  //  $comment->save();
-    
-    //     $comment = new Comment();
-    //     $comment->user_id = auth()->id();
-    //     $comment->post_id = $request->post;
-    //     $comment->comment = $request->comment;
-    //     $comment->save();
+    // dd($post->id);
 
-    return back()->with('success', 'Comment added successfully!');
-      
-   }
+    
+    return redirect()->back()->with('success', 'Comment added successfully!');
 }
+
+    public function index()
+    {
+        $comments = Comment::all();
+        
+        return view('post.index', compact(comments));
+    }
+
+   
+} 

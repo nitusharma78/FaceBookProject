@@ -3,8 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\http\Models\User;
-use App\http\Models\Post;
+use App\Models\User;
+use App\Models\Post;
 
 class Comment extends Model
 {

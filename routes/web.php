@@ -47,7 +47,8 @@ Route::get('/feed', [PostController::class, 'index'])->name('feed.index');
 Route::delete('/post/{id}', [PostController::class, 'destroy'])->name('posts.destroy');
 
 
-Route::post('/comment/store', [CommentController::class, 'store'])->name('comment.store');
+Route::post('/comment/{post}', [CommentController::class, 'store'])->name('comment.store');
+Route::get('/comment/', [CommentController::class, 'index'])->name('comment.index');
 
 
 Route::middleware('auth')->group(function () {
