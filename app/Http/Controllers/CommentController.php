@@ -13,7 +13,7 @@ class CommentController extends Controller
   public function store(Request $request, Post $post){
         $request->validate([
         'comment' => 'required|string|min:10',
-         'post_id' => 'required|exists:posts,id'
+        'post_id' => 'required|exists:posts,id'
     ]);
 
 
@@ -29,12 +29,12 @@ class CommentController extends Controller
     return redirect()->back()->with('success', 'Comment added successfully!');
 }
 
-    public function index()
+    public function show(Post $post)
     {
-        $comments = Comment::all();
-        
-        return view('post.index', compact(comments));
+        $post = load(['comments.user']);
+        dd($post);
+        return view('posts.show', compact('post'));
     }
 
-   
+
 } 
