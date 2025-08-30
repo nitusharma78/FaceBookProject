@@ -32,8 +32,14 @@ class CommentController extends Controller
     public function show(Post $post)
     {
         $post = load(['comments.user']);
-        dd($post);
         return view('posts.show', compact('post'));
+    }
+
+
+    public function destroy($id){
+        $comment = Comment::findOrFail($id);
+        $comment->delete();
+        return redirect()->back()->with('success', 'Comment deleted successfully!');
     }
 
 

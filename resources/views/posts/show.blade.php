@@ -71,14 +71,33 @@
             </div>
         </div>
 
+
         <!-- Comment Collapse Section -->
         <div class="collapse" id="comments-{{ $post->id }}">
             <div class="px-3 pb-3">
                 @forelse($post->comments as $comment)
                 <div class="border p-2 mb-2 rounded bg-light">
+                    <div class="dropdown">{{ $comment->id }}
+                        <a href="#" class="text-muted" id="dropdownMenu{{ $comment->id }}" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            <i class="bi bi-three-dots "></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenu{{ $comment->id }}">
+                            <li>
+                                <form action="{{ route('comments.destroy',$comment->id) }}" method="POST"
+                                    onsubmit="return confirm('Are you sure you want to delete this post?');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit"
+                                        class="dropdown-item text-danger">{{ $comment->id }}Delete</button>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
                     <strong>{{ $comment->user->fname }} {{ $comment->user->lname }}</strong><br>
                     {{ $comment->comment }}
                 </div>
+
 
                 <div class="collapse" id="more-comments-{{ $post->id }}">
                     <div class="border p-2 mb-2 rounded bg-light">
@@ -89,8 +108,6 @@
                 @empty
                 <p>No comments yet.</p>
                 @endforelse
-
-
 
                 <button class="btn btn-link p-0" data-bs-toggle="collapse"
                     data-bs-target="#more-comments-{{ $post->id }}" aria-expanded="false"

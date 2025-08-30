@@ -49,6 +49,7 @@ Route::delete('/post/{id}', [PostController::class, 'destroy'])->name('posts.des
 
 Route::post('/comment/{post}', [CommentController::class, 'store'])->name('comment.store');
 Route::get('/posts/{post}', [CommentController::class, 'show'])->name('posts.show');
+Route::delete('post/comments/{id}', [CommentController::class, 'destroy'])->name('comments.destroy');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
