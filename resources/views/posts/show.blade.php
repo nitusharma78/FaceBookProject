@@ -78,49 +78,56 @@
             @endif
         </div>
 
+        <!-- Like count & Comment count -->
+        <div class="d-flex justify-content-between text-muted small mb-2 px-3 mt-2" <span><i
+                class="bi bi-hand-thumbs-up-fill text-primary"></i> </span>
+            <span>1 comment </span>
+        </div>
+
+        <hr class="my-1">
+
         <!-- Footer (Like, Comment, Share) -->
         <div class="card-footer bg-white border-0">
             <div class="d-flex justify-content-around text-muted">
                 <span><i class="bi bi-hand-thumbs-up"></i> Like</span>
                 <!-- <span class="comment-btn" data-post-id="{{ $post->id }}"><i class="bi bi-chat"></i> Comment</span> -->
-                <button type="button" class="btn btn-outline-primary border-0" data-bs-toggle="modal"
-                    data-bs-target="#commentModal">
-                    <i class="bi bi-chat"></i> Comment
+                <button type="submit" class="btn btn-outline-primary border-0" data-bs-toggle="modal"
+                    data-bs-target="#commentModal{{$post->id}}" data-post-id="{{ $post->id }}">
+                    <i class="bi bi-chat"></i>{{$post->id}} Comment
                 </button>
                 <span><i class="bi bi-share"></i> Share</span>
+            </div>
+        </div>
+        <!-- Comment Modal -->
+        <div class="modal fade" id="commentModal{{$post->id}}" tabindex="-1" aria-labelledby="commentModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="commentModalLabel">Add a Comment</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    <form action="{{ route('comment.store', ['post' => $post->id]) }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="post_id" value="{{ $post->id }}">
+                        <div class="modal-body">
+                            <textarea class="form-control" rows="4" name="comment"
+                                placeholder="Write your comment..."></textarea>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-primary">{{$post->id}} Comment</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
     @empty
     <p class="text-muted text-center">No posts available.</p>
     @endforelse
-</div>
-<!-- Comment Modal -->
-<div class="modal fade" id="commentModal" tabindex="-1" aria-labelledby="commentModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
 
-            <!-- Modal Header -->
-            <div class="modal-header">
-                <h5 class="modal-title" id="commentModalLabel">Add a Comment</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-
-            <form action="{{ route('comment.store') }}" method="post">
-                @csrf
-                <!-- Modal Body -->
-                <input type="hidden" name="post_id" value="{{ $post->id }}">
-                <div class="modal-body">
-                    <textarea class="form-control" rows="4" name="comment"
-                        placeholder="Write your comment..."></textarea>
-                </div>
-
-                <!-- Modal Footer -->
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Post Comment</button>
-                </div>
-            </form>
-        </div>
-    </div>
 </div>

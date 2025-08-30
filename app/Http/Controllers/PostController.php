@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 use App\Models\Post;
+use App\Models\User;
+
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
@@ -54,12 +56,24 @@ class PostController extends Controller
     
     public function index()
     {
-        $posts = Post::with('user')->latest()->get();
+        $posts = Post::with(['user', 'comments.user'])->latest()->get();
        
         return view('feed.index', compact('posts')); 
          
         
     }
+
+
+    public function show($id)
+    {
+        $post = Post::with('user', 'comments.user')->findOrFail($id);
+        $comments = $post->comments;
+        // dd($comments);
+
+        return view('posts.show', compact('post', 'comments'));
+
+    }
+
     
     public function destroy($id)
     {
